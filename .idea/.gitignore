@@ -6,3 +6,18 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+
+# Build artifacts
+target/
+*.class
+
+# Package files
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# IDE specific
+.idea/
+*.iml
+nb-configuration.xml
