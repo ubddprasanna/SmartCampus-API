@@ -9,5 +9,5 @@ package com.smartcampus.model;
  * @author ubddp
  */
 public class SensorReading {
-    
+
 }
