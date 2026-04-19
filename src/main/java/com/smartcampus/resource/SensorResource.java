@@ -48,10 +48,21 @@ public class SensorResource {
                     .build();
         }
 
+        //Check if sensor is moving from another room
+        Sensor existingSensor = dataStore.sensors.get(sensor.getId());
+        if (existingSensor != null && !existingSensor.getRoomId().equals(sensor.getRoomId())) {
+            Room oldRoom = dataStore.rooms.get(existingSensor.getRoomId());
+            if (oldRoom != null) {
+                oldRoom.getSensorIds().remove(sensor.getId());
+            }
+        }
+
         dataStore.sensors.put(sensor.getId(), sensor);
 
-        // Link the sensor ID to the room's list
-        parentRoom.getSensorIds().add(sensor.getId());
+        // Link the sensor ID to the room's list 
+        if (!parentRoom.getSensorIds().contains(sensor.getId())) {
+            parentRoom.getSensorIds().add(sensor.getId());
+        }
 
         return Response.status(Response.Status.CREATED).entity(sensor).build();
     }
