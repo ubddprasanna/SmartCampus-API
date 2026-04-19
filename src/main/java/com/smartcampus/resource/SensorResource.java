@@ -18,6 +18,9 @@ import java.util.stream.Collectors;
  *
  * @author ubddp
  */
+@Path("/sensors")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class SensorResource {
 
     private CampusDataStore dataStore = CampusDataStore.getInstance();
@@ -51,5 +54,11 @@ public class SensorResource {
         parentRoom.getSensorIds().add(sensor.getId());
 
         return Response.status(Response.Status.CREATED).entity(sensor).build();
+    }
+
+    // Task 4.1: Sub-Resource Locator Pattern
+    @Path("/{sensorId}/readings")
+    public SensorReadingResource getReadingResource(@PathParam("sensorId") String sId) {
+        return new SensorReadingResource(sId);
     }
 }
