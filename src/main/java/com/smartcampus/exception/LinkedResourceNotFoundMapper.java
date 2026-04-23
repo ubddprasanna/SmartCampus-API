@@ -8,6 +8,7 @@ import com.smartcampus.model.ErrorResponse;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
+
 import javax.ws.rs.ext.Provider;
 
 /**
@@ -15,12 +16,12 @@ import javax.ws.rs.ext.Provider;
  * @author ubddp
  */
 @Provider
-public class RoomNotEmptyMapper implements ExceptionMapper<RoomNotEmptyException> {
+public class LinkedResourceNotFoundMapper implements ExceptionMapper<LinkedResourceNotFoundException> {
 
     @Override
-    public Response toResponse(RoomNotEmptyException ex) {
-        ErrorResponse error = new ErrorResponse(ex.getMessage(), 409);
-        return Response.status(Response.Status.CONFLICT)
+    public Response toResponse(LinkedResourceNotFoundException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), 422);
+        return Response.status(422) // Unprocessable Entity
                 .entity(error)
                 .type(MediaType.APPLICATION_JSON)
                 .build();

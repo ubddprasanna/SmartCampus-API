@@ -15,12 +15,12 @@ import javax.ws.rs.ext.Provider;
  * @author ubddp
  */
 @Provider
-public class RoomNotEmptyMapper implements ExceptionMapper<RoomNotEmptyException> {
+public class SensorUnavailableMapper implements ExceptionMapper<SensorUnavailableException> {
 
     @Override
-    public Response toResponse(RoomNotEmptyException ex) {
-        ErrorResponse error = new ErrorResponse(ex.getMessage(), 409);
-        return Response.status(Response.Status.CONFLICT)
+    public Response toResponse(SensorUnavailableException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), 403);
+        return Response.status(Response.Status.FORBIDDEN)
                 .entity(error)
                 .type(MediaType.APPLICATION_JSON)
                 .build();
