@@ -6,6 +6,7 @@ package com.smartcampus.resource;
 
 import com.smartcampus.model.*;
 import com.smartcampus.storage.CampusDataStore;
+import com.smartcampus.exception.SensorUnavailableException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -41,6 +42,11 @@ public class SensorReadingResource {
 
         if (sensor == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("Sensor not found").build();
+        }
+
+        // Integrity check: Forbidden if sensor is in maintenance
+        if ("MAINTENANCE".equalsIgnoreCase(sensor.getStatus())) {
+            throw new SensorUnavailableException(sensorId);
         }
 
         // 1. Append reading to histry

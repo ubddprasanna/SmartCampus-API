@@ -8,6 +8,8 @@ package com.smartcampus.exception;
  *
  * @author ubddp
  */
-public class LinkedResourceNotFoundException {
-    
+public class LinkedResourceNotFoundException extends RuntimeException {
+    public LinkedResourceNotFoundException(String message) {
+        super(message);
+    }
 }

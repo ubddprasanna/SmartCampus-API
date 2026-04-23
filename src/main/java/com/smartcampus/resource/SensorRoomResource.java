@@ -6,6 +6,7 @@ package com.smartcampus.resource;
 
 import com.smartcampus.model.Room;
 import com.smartcampus.storage.CampusDataStore;
+import com.smartcampus.exception.RoomNotEmptyException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -16,7 +17,6 @@ import java.util.List;
  *
  * @author ubddp
  */
-
 @Path("/rooms")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -64,10 +64,7 @@ public class SensorRoomResource {
 
         // Business Logic: Prevent deletion if room has active sensors
         if (!room.getSensorIds().isEmpty()) {
-
-            return Response.status(Response.Status.CONFLICT)
-                    .entity("Cannot delete room: It still has active sensors.")
-                    .build();
+            throw new RoomNotEmptyException(roomId);
         }
 
         dataStore.rooms.remove(roomId);

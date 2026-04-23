@@ -8,6 +8,9 @@ package com.smartcampus.exception;
  *
  * @author ubddp
  */
-public class RoomNotEmptyException {
-    
+public class RoomNotEmptyException extends RuntimeException {
+
+    public RoomNotEmptyException(String roomId) {
+        super("Room " + roomId + " cannot be deleted because it still contains active sensors.");
+    }
 }

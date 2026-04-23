@@ -7,6 +7,7 @@ package com.smartcampus.resource;
 import com.smartcampus.model.Sensor;
 import com.smartcampus.model.Room;
 import com.smartcampus.storage.CampusDataStore;
+import com.smartcampus.exception.LinkedResourceNotFoundException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -43,9 +44,7 @@ public class SensorResource {
     public Response registerSensor(Sensor sensor) {
         Room parentRoom = dataStore.rooms.get(sensor.getRoomId());
         if (parentRoom == null) {
-            return Response.status(422)
-                    .entity("Room ID " + sensor.getRoomId() + " not found.")
-                    .build();
+            throw new LinkedResourceNotFoundException("Room ID " + sensor.getRoomId() + " not found.");
         }
 
         //Check if sensor is moving from another room
@@ -59,7 +58,6 @@ public class SensorResource {
 
         dataStore.sensors.put(sensor.getId(), sensor);
 
-        // Link the sensor ID to the room's list 
         if (!parentRoom.getSensorIds().contains(sensor.getId())) {
             parentRoom.getSensorIds().add(sensor.getId());
         }

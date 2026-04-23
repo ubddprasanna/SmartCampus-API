@@ -8,6 +8,8 @@ package com.smartcampus.exception;
  *
  * @author ubddp
  */
-public class SensorUnavailableException {
-    
+public class SensorUnavailableException extends RuntimeException {
+    public SensorUnavailableException(String sensorId) {
+        super("Sensor " + sensorId + " is currently in MAINTENANCE mode and cannot accept new readings.");
+    }
 }
