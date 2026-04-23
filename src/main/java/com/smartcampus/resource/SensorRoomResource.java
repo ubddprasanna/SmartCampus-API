@@ -5,6 +5,7 @@
 package com.smartcampus.resource;
 
 import com.smartcampus.model.Room;
+import com.smartcampus.model.ErrorResponse;
 import com.smartcampus.storage.CampusDataStore;
 import com.smartcampus.exception.RoomNotEmptyException;
 import javax.ws.rs.*;
@@ -34,6 +35,13 @@ public class SensorRoomResource {
     // Task 2.1: POST / - Create a new room
     @POST
     public Response createRoom(Room room) {
+        // Safety check to prevent NullPointerException if body is empty
+        if (room == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new ErrorResponse("Room data is required.", 400))
+                    .build();
+        }
+
         if (room.getId() == null || room.getId().isEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Room ID is required").build();
         }

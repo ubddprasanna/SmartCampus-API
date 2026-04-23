@@ -6,6 +6,7 @@ package com.smartcampus.resource;
 
 import com.smartcampus.model.Sensor;
 import com.smartcampus.model.Room;
+import com.smartcampus.model.ErrorResponse;
 import com.smartcampus.storage.CampusDataStore;
 import com.smartcampus.exception.LinkedResourceNotFoundException;
 import javax.ws.rs.*;
@@ -42,6 +43,13 @@ public class SensorResource {
     // Task 3.1: POST / - Registr sensor with integrity check 
     @POST
     public Response registerSensor(Sensor sensor) {
+
+        if (sensor == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new ErrorResponse("Request body is missing or invalid.", 400))
+                    .build();
+        }
+
         Room parentRoom = dataStore.rooms.get(sensor.getRoomId());
         if (parentRoom == null) {
             throw new LinkedResourceNotFoundException("Room ID " + sensor.getRoomId() + " not found.");

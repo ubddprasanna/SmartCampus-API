@@ -41,7 +41,8 @@ public class SensorReadingResource {
         Sensor sensor = dataStore.sensors.get(sensorId);
 
         if (sensor == null) {
-            return Response.status(Response.Status.NOT_FOUND).entity("Sensor not found").build();
+            ErrorResponse error = new ErrorResponse("Sensor " + sensorId + " not found.", 404);
+            return Response.status(Response.Status.NOT_FOUND).entity(error).build();
         }
 
         // Integrity check: Forbidden if sensor is in maintenance
@@ -49,10 +50,8 @@ public class SensorReadingResource {
             throw new SensorUnavailableException(sensorId);
         }
 
-        // 1. Append reading to histry
         dataStore.readings.computeIfAbsent(sensorId, k -> new ArrayList<>()).add(reading);
 
-        // 2. Side Efect: Update parent Sensor"s current value
         sensor.setCurrentValue(reading.getValue());
 
         return Response.status(Response.Status.CREATED).entity(reading).build();

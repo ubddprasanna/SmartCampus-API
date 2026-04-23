@@ -10,9 +10,9 @@ package com.smartcampus.model;
  */
 public class SensorReading {
 
-    private String id;        // UUID [cite: 94]
-    private long timestamp;   // Epoch time [cite: 95]
-    private double value;     // The actual reading [cite: 96]
+    private String id;        // UUID
+    private long timestamp;   // Epoch time 
+    private double value;     // The actual reading 
 
     public SensorReading() {
         // Def constructor
