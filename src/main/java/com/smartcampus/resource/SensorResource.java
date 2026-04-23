@@ -27,27 +27,25 @@ public class SensorResource {
 
     private CampusDataStore dataStore = CampusDataStore.getInstance();
 
-    // Task 3.1 & 3.2: GET / - Support optional type filtering 
+    // Task 3.1 & 3.2: GET / - Support optional type filtering
     @GET
     public List<Sensor> getSensors(@QueryParam("type") String type) {
         List<Sensor> allSensors = new ArrayList<>(dataStore.sensors.values());
         if (type == null || type.isEmpty()) {
             return allSensors;
         }
-        // Filter logic for Part 3.2 
+        // Filter logic for Part 3.2
         return allSensors.stream()
                 .filter(s -> s.getType().equalsIgnoreCase(type))
                 .collect(Collectors.toList());
     }
 
-    // Task 3.1: POST / - Registr sensor with integrity check 
+    // Task 3.1: POST / - Registr sensor with integrity check
     @POST
     public Response registerSensor(Sensor sensor) {
-
         if (sensor == null) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(new ErrorResponse("Request body is missing or invalid.", 400))
-                    .build();
+                    .entity(new ErrorResponse("Invalid request body", 400)).build();
         }
 
         Room parentRoom = dataStore.rooms.get(sensor.getRoomId());
