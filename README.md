@@ -1,8 +1,11 @@
 # Smart Campus Sensor & Room Management API
 
 **Module:** 5COSC022W Client-Server Architectures
+
 **Assignment:** Coursework – REST API Design, Development, and Implementation
+
 **Student (Author):** Dilshan D Prasanna
+
 **Student ID:** 20240194 | W2119857
 
 ---
